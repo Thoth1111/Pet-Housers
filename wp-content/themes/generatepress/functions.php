@@ -121,3 +121,64 @@ require $theme_dir . '/inc/structure/navigation.php';
 require $theme_dir . '/inc/structure/post-meta.php';
 require $theme_dir . '/inc/structure/sidebars.php';
 require $theme_dir . '/inc/structure/search-modal.php';
+
+function acfpet_register_pet_post_type() {
+	$labels = [
+		'name' => 'Pets',
+		'singular_name' => 'Pet',
+		'menu_name' => 'Pets',
+		'name_admin_bar' => 'Pet',
+		'add_new' => 'Add New',
+		'add_new_item' => 'Add New Pet',
+		'new_item' => 'New Pet',
+		'edit_item' => 'Edit Pet',
+		'view_item' => 'View Pet',
+		'all_items' => 'All Pets',
+		'search_items' => 'Search Pets',
+		'not_found' => 'No pets found',
+		'not_found_in_trash' => 'No pets found in trash',
+	];
+
+	$args = [
+		'labels' => $labels,
+		'public' => true,
+		'has_archive' => true,
+		'rewrite' => ['slug' => 'pets'],
+		'supports' => ['title', 'editor', 'thumbnail'],
+		'show_in_rest' => true, //Gutenberg support
+		'menu_icon' => 'dashicons-pets', //WordPress pet icon
+	];
+
+	register_post_type('pet', $args);
+}
+add_action('init', 'acfpet_register_pet_post_type');
+
+function acfpet_register_pet_taxonomies() {
+	//Species
+	register_taxonomy('species', 'pet', [
+		'label' => 'Species',
+		'hierachical' => true,
+		'public' => true,
+		'rewrite' => ['slug' => 'species'],
+		'show_in_rest' => true,
+	]);
+
+	//Breed
+	register_taxonomy('breed', 'pet', [
+		'label' => 'Breed',
+		'hierachical' => true,
+		'public' => true,
+		'rewrite' => ['slug' => 'breed'],
+		'show_in_rest' => true,
+	]);
+
+	//Location
+	register_taxonomy('location', 'pet', [
+		'label' => 'Location',
+		'hierachical' => 'true',
+		'public' => 'true',
+		'rewrite' => ['slug' => 'location'],
+		'show_in_rest' => true,
+	]);
+}
+add_action('init', 'acfpet_register_pet_taxonomies');
