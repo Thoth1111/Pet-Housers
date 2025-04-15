@@ -1,0 +1,6 @@
+wp-config.php
+wp-content/uploads/
+node_modules/
+idea/
+.vscode/
+
